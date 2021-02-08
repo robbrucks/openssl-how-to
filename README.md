@@ -1,43 +1,48 @@
 # openssl-how-to
 Basic openssl commands
 
-* Query a remote SSL Certificate
+* Query a remote SSL Certificate and the certificate chain
 
-      /usr/bin/openssl s_client -showcerts -connect HOSTNAME:PORT -servername HOSTNAME
-      /usr/bin/openssl verify -CAfile /path/to/cabundle.crt /path/to/server.crt
-      /usr/bin/openssl ocsp -issuer /path/to/cabundle.crt -cert /path/to/server.crt -url http://ocsp.thawte.com -no_nonce
-      /usr/bin/openssl x509 -text -noout -nameopt sep_semi_plus_space -in /path/to/server.crt
+      openssl s_client -showcerts -connect HOSTNAME:PORT -servername HOSTNAME </dev/null
 
-* Query a certificate (crt) file
+* Display the contents of a remote SSL certificate
 
-      /usr/bin/openssl x509 -text -noout -nameopt sep_semi_plus_space -in /path/to/server.crt
+      openssl s_client -connect HOSTNAME:PORT </dev/null 2>/dev/null | openssl x509 -noout -text
+
+* Display the contents of a local SSL certificate
+
+      openssl x509 -text -noout -nameopt sep_semi_plus_space -in /path/to/server.crt
+
+* Check to see if the certificate has been revoked
+
+      openssl ocsp -issuer /path/to/cabundle.crt -cert /path/to/server.crt -url http://ocsp.thawte.com -no_nonce
 
 * Query a certificate signing request (csr) file
 
-      /usr/bin/openssl req -text -noout -verify -nameopt sep_semi_plus_space -in /path/to/server.csr
+      openssl req -text -noout -verify -nameopt sep_semi_plus_space -in /path/to/server.csr
 
 * Validate a certificate (crt) and its key (key) (md5 sums should match)
 
-      /usr/bin/openssl x509 -noout -modulus -in /path/to/server.crt | /usr/bin/openssl md5
-      /usr/bin/openssl rsa -noout -modulus -in /path/to/server.key | /usr/bin/openssl md5
+      openssl x509 -noout -modulus -in /path/to/server.crt | openssl md5
+      openssl rsa -noout -modulus -in /path/to/server.key | openssl md5
 
 * Validate a certificate sigining request (csr) and its key (key) (md5 sums should match)
 
-      /usr/bin/openssl req -noout -modulus -in /path/to/server.csr | /usr/bin/openssl md5
-      /usr/bin/openssl rsa -noout -modulus -in /path/to/server.key | /usr/bin/openssl md5
+      openssl req -noout -modulus -in /path/to/server.csr | openssl md5
+      openssl rsa -noout -modulus -in /path/to/server.key | openssl md5
 
 * Validate a certificate and its bundle/chain
 
-      /usr/bin/openssl verify -CAfile /path/to/cabundle.crt /path/to/server.crt
+      openssl verify -CAfile /path/to/cabundle.crt /path/to/server.crt
 
 * Generate a CSR
 
-      /usr/bin/openssl genrsa -out /path/to/server.key 2048
-      /usr/bin/openssl req -new -nodes -sha256 -config /path/to/server.cfg -key /path/to/server.key
+      openssl genrsa -out /path/to/server.key 2048
+      openssl req -new -nodes -sha256 -config /path/to/server.cfg -key /path/to/server.key
 
 * Generate a self-signed certificate
 
-      /usr/bin/openssl genrsa -out /path/to/server.key 2048
-      /usr/bin/openssl req -x509 -new -nodes -sha256 -days 3650 -config /path/to/server.cfg -key /path/to/server.key
+      openssl genrsa -out /path/to/server.key 2048
+      openssl req -x509 -new -nodes -sha256 -days 3650 -config /path/to/server.cfg -key /path/to/server.key
 
 
