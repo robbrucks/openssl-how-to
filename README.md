@@ -46,3 +46,7 @@ Basic openssl commands
       openssl req -x509 -new -nodes -sha256 -days 3650 -config /path/to/server.cfg -key /path/to/server.key
 
 
+* List all CA Certs installed on Centos server
+
+      openssl crl2pkcs7 -nocrl -certfile /etc/ssl/certs/ca-bundle.crt | openssl pkcs7 -print_certs -text -noout|grep Subject:
+
