@@ -50,3 +50,10 @@ Basic openssl commands
 
       openssl crl2pkcs7 -nocrl -certfile /etc/ssl/certs/ca-bundle.crt | openssl pkcs7 -print_certs -text -noout|grep Subject:
 
+# Various Notes
+
+## MacOS: Sync CA Certificates from Keychain to Command Line Automatically
+
+https://github.com/raggi/openssl-osx-ca#readme
+
+
