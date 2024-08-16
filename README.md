@@ -45,6 +45,11 @@ Basic openssl commands
       openssl genrsa -out /path/to/server.key 2048
       openssl req -x509 -new -nodes -sha256 -days 3650 -config /path/to/server.cfg -key /path/to/server.key
 
+* Generate a thumbprint from an SSL certificate
+
+      openssl x509 -in /path/to/certificate.crt -noout -fingerprint -sha1
+      openssl x509 -in /path/to/certificate.crt -noout -fingerprint -sha256
+      openssl x509 -in /path/to/certificate.crt -noout -fingerprint -sha512
 
 * List all CA Certs installed on Centos server
 
